@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="robots" content="noindex">
+  <title>Gondole Key — Admin</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/admin.css">
+</head>
+<body>
+  <!-- Connexion -->
+  <main id="ecran-connexion" class="connexion cache">
+    <form id="form-connexion" class="carte-connexion">
+      <span class="logo">G<b>O</b>NDOLE KEY</span>
+      <h1>Espace admin</h1>
+      <label for="mdp">Mot de passe admin</label>
+      <input id="mdp" type="password" autocomplete="current-password" required>
+      <p id="erreur-connexion" class="alerte cache" role="alert"></p>
+      <button class="btn large" type="submit">Se connecter</button>
+    </form>
+  </main>
+
+  <!-- Console -->
+  <div id="ecran-admin" class="cache">
+    <header class="barre">
+      <span class="logo">G<b>O</b>NDOLE KEY</span>
+      <nav class="onglets" role="tablist">
+        <button role="tab" data-onglet="collab" aria-selected="true">Collaborateurs</button>
+        <button role="tab" data-onglet="outils" aria-selected="false">Outils reliés</button>
+        <button role="tab" data-onglet="reglages" aria-selected="false">Réglages</button>
+        <button role="tab" data-onglet="journal" aria-selected="false">Journal</button>
+      </nav>
+      <button id="deconnexion" class="btn secondaire petit">Se déconnecter</button>
+    </header>
+
+    <main class="contenu">
+      <!-- Collaborateurs -->
+      <section id="collab" class="panneau">
+        <div class="synthese" id="synthese"></div>
+
+        <form id="form-collab" class="ajout">
+          <div><label for="c-login">Identifiant Gondole One</label><input id="c-login" type="text" placeholder="prenom.nom" required autocomplete="off"></div>
+          <div><label for="c-nom">Nom affiché</label><input id="c-nom" type="text" placeholder="Prénom Nom" autocomplete="off"></div>
+          <div><label for="c-mail">E-mail (pour envoyer le lien)</label><input id="c-mail" type="email" placeholder="prenom.nom@societe.fr" autocomplete="off"></div>
+          <button class="btn" type="submit">Ajouter</button>
+        </form>
+        <details class="import">
+          <summary>Ajouter une liste d'un coup</summary>
+          <p class="doux">Une ligne par collaborateur : <code>identifiant;nom;e-mail</code> (copié depuis Excel, ça marche aussi).</p>
+          <textarea id="import-texte" rows="5" placeholder="jdupont;Jean Dupont;jean.dupont@societe.fr"></textarea>
+          <button id="import-btn" class="btn secondaire" type="button">Importer la liste</button>
+          <p id="import-res" class="doux"></p>
+        </details>
+
+        <div class="filtre"><input id="recherche" type="text" placeholder="Rechercher un collaborateur" aria-label="Rechercher"></div>
+        <div class="tableau-zone">
+          <table class="tableau">
+            <thead><tr><th>Collaborateur</th><th>État</th><th>Téléphone</th><th>Dernière connexion validée</th><th class="droite">Actions</th></tr></thead>
+            <tbody id="liste-collab"></tbody>
+          </table>
+        </div>
+        <p id="vide-collab" class="vide doux cache">Aucun collaborateur pour l'instant. Ajoute le premier avec le formulaire ci-dessus.</p>
+      </section>
+
+      <!-- Outils -->
+      <section id="outils" class="panneau cache">
+        <p class="doux intro">Chaque outil de Gondole One (CRM, notes de frais, BI…) a sa propre clé. La double authentification est demandée une fois par semaine pour chaque outil, sur chaque appareil.</p>
+        <form id="form-outil" class="ajout ajout-outil">
+          <div><label for="o-nom">Nom de l'outil</label><input id="o-nom" type="text" placeholder="Gondole One — CRM" required autocomplete="off"></div>
+          <button class="btn" type="submit">Relier un outil</button>
+        </form>
+        <div class="tableau-zone">
+          <table class="tableau">
+            <thead><tr><th>Outil</th><th>Clé</th><th>État</th><th>Dernier appel</th><th class="droite">Actions</th></tr></thead>
+            <tbody id="liste-outils"></tbody>
+          </table>
+        </div>
+        <p id="vide-outils" class="vide doux cache">Aucun outil relié. Relie Gondole One pour obtenir sa clé.</p>
+      </section>
+
+      <!-- Réglages -->
+      <section id="reglages" class="panneau cache">
+        <form id="form-reglages" class="reglages">
+          <div class="reglage">
+            <label for="r-trust">Redemander le code tous les</label>
+            <div class="unite"><input id="r-trust" type="number" min="1" max="90" required><span>jours</span></div>
+          </div>
+          <div class="reglage">
+            <label for="r-max">Erreurs autorisées avant blocage</label>
+            <div class="unite"><input id="r-max" type="number" min="3" max="20" required><span>essais</span></div>
+          </div>
+          <div class="reglage">
+            <label for="r-lock">Durée du blocage</label>
+            <div class="unite"><input id="r-lock" type="number" min="1" max="1440" required><span>minutes</span></div>
+          </div>
+          <div class="reglage">
+            <label for="r-enroll">Validité d'un lien d'activation</label>
+            <div class="unite"><input id="r-enroll" type="number" min="1" max="720" required><span>heures</span></div>
+          </div>
+          <p class="doux large">Durée de vie d'un code : <strong id="r-periode"></strong> secondes (réglée sur le serveur, variable TOTP_PERIOD).</p>
+          <button class="btn" type="submit">Enregistrer les réglages</button>
+          <span id="reglages-ok" class="doux cache">Réglages enregistrés</span>
+        </form>
+      </section>
+
+      <!-- Journal -->
+      <section id="journal" class="panneau cache">
+        <div class="tableau-zone">
+          <table class="tableau">
+            <thead><tr><th>Date</th><th>Événement</th><th>Détail</th></tr></thead>
+            <tbody id="liste-journal"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Fenêtre : lien d'activation -->
+  <dialog id="dlg-lien" class="fenetre">
+    <h2 id="dlg-lien-titre">Lien d'activation</h2>
+    <p class="doux">Le collaborateur scanne ce QR code avec son téléphone, ou ouvre le lien reçu par e-mail ou SMS.</p>
+    <div id="dlg-qr" class="qr"></div>
+    <div class="lien-ligne"><input id="dlg-lien-url" type="text" readonly aria-label="Lien d'activation"><button id="dlg-copier" class="btn secondaire" type="button">Copier</button></div>
+    <p id="dlg-expire" class="doux petit-texte"></p>
+    <div class="actions-fenetre">
+      <a id="dlg-mail" class="btn secondaire" href="#">Envoyer par e-mail</a>
+      <button class="btn" type="button" data-fermer>Terminé</button>
+    </div>
+  </dialog>
+
+  <!-- Fenêtre : clé d'outil -->
+  <dialog id="dlg-cle" class="fenetre">
+    <h2>Clé de l'outil</h2>
+    <p class="alerte">Copie cette clé maintenant : elle ne sera plus jamais affichée.</p>
+    <p class="doux">Colle-la dans les réglages du serveur Gondole One, variable <code>GONDOLE_KEY_API_KEY</code>.</p>
+    <div class="lien-ligne"><input id="dlg-cle-val" type="text" readonly aria-label="Clé de l'outil"><button id="dlg-cle-copier" class="btn secondaire" type="button">Copier</button></div>
+    <div class="actions-fenetre"><button class="btn" type="button" data-fermer>J'ai copié la clé</button></div>
+  </dialog>
+
+  <p id="toast" class="toast cache" role="status"></p>
+  <script src="/assets/admin.js"></script>
+</body>
+</html>

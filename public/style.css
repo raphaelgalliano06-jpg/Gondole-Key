@@ -1,0 +1,46 @@
+/* GONDOLE KEY — thème sombre, couleurs pleines, palette sobre (pas de rouge). */
+:root {
+  --noir: #000000;
+  --fond: #0E1014;
+  --surface: #171A20;
+  --surface-2: #1F232B;
+  --trait: #2C313B;
+  --texte: #F2F3F5;
+  --doux: #99A0AC;
+  --bleu: #2F6BFF;
+  --bleu-fonce: #1D4FD1;
+  --ambre: #E8A33D;
+  --radius: 10px;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--noir); color: var(--texte); font-family: var(--font); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+button, input, textarea, select { font: inherit; color: inherit; }
+a { color: var(--bleu); }
+:focus-visible { outline: 2px solid var(--bleu); outline-offset: 2px; }
+
+/* Logo : GONDOLE KEY, le O de Gondole en bleu */
+.logo { font-weight: 800; letter-spacing: .08em; font-size: 1.05rem; color: #fff; white-space: nowrap; }
+.logo b { color: var(--bleu); font-weight: 800; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; border: 0; border-radius: var(--radius); padding: .7rem 1.1rem; background: var(--bleu); color: #fff; font-weight: 650; cursor: pointer; text-decoration: none; }
+.btn:hover { background: var(--bleu-fonce); }
+.btn:disabled { background: var(--trait); color: var(--doux); cursor: default; }
+.btn.secondaire { background: var(--surface-2); color: var(--texte); border: 1px solid var(--trait); }
+.btn.secondaire:hover { background: var(--trait); }
+.btn.petit { padding: .4rem .7rem; font-size: .875rem; font-weight: 600; }
+.btn.large { width: 100%; padding: 1rem; font-size: 1.05rem; }
+
+input[type=text], input[type=email], input[type=password], input[type=number], textarea {
+  width: 100%; background: var(--surface-2); border: 1px solid var(--trait); border-radius: var(--radius); padding: .65rem .8rem; color: var(--texte);
+}
+input:focus, textarea:focus { border-color: var(--bleu); outline: none; }
+label { display: block; font-size: .875rem; color: var(--doux); margin-bottom: .3rem; }
+
+.alerte { background: var(--ambre); color: #1A1204; border-radius: var(--radius); padding: .75rem 1rem; font-weight: 600; }
+.info { background: var(--surface-2); border: 1px solid var(--trait); border-radius: var(--radius); padding: .75rem 1rem; color: var(--doux); }
+.cache { display: none !important; }
+.doux { color: var(--doux); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

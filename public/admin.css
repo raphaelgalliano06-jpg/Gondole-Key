@@ -1,0 +1,84 @@
+body { background: var(--fond); }
+
+/* Connexion */
+.connexion { min-height: 100vh; display: grid; place-items: center; padding: 1rem; background: var(--noir); }
+.carte-connexion { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: .75rem; }
+.carte-connexion h1 { font-size: 1.3rem; margin: .75rem 0 .5rem; }
+
+/* Barre du haut */
+.barre { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 1.5rem; padding: .8rem 1.5rem; background: var(--noir); border-bottom: 1px solid var(--trait); }
+.onglets { display: flex; gap: .25rem; flex: 1; overflow-x: auto; }
+.onglets button { background: none; border: 0; padding: .5rem .8rem; border-radius: 8px; color: var(--doux); font-weight: 600; cursor: pointer; white-space: nowrap; }
+.onglets button:hover { color: var(--texte); }
+.onglets button[aria-selected="true"] { background: var(--surface-2); color: #fff; }
+
+.contenu { max-width: 1180px; margin: 0 auto; padding: 1.5rem; }
+.intro { max-width: 70ch; margin: 0 0 1.25rem; }
+
+/* Synthèse : couleurs pleines */
+.synthese { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; margin-bottom: 1.5rem; }
+.chiffre { background: var(--surface); border: 1px solid var(--trait); border-radius: var(--radius); padding: .9rem 1rem; }
+.chiffre strong { display: block; font-size: 1.6rem; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.chiffre span { color: var(--doux); font-size: .875rem; }
+.chiffre.bleu { background: var(--bleu); border-color: var(--bleu); }
+.chiffre.bleu span { color: #DCE6FF; }
+.chiffre.ambre { background: var(--ambre); border-color: var(--ambre); color: #1A1204; }
+.chiffre.ambre span { color: #3D2A08; }
+
+/* Formulaires d'ajout */
+.ajout { display: grid; grid-template-columns: 1fr 1fr 1.3fr auto; gap: .75rem; align-items: end; background: var(--surface); border: 1px solid var(--trait); border-radius: var(--radius); padding: 1rem; }
+.ajout-outil { grid-template-columns: 1fr auto; max-width: 640px; margin-bottom: 1.25rem; }
+.import { margin: .75rem 0 1.5rem; }
+.import summary { cursor: pointer; color: var(--bleu); font-weight: 600; padding: .25rem 0; }
+.import textarea { margin: .5rem 0; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .875rem; }
+.filtre { max-width: 360px; margin-bottom: .75rem; }
+
+/* Tableaux : en-têtes pleins, jamais verts */
+.tableau-zone { overflow-x: auto; border: 1px solid var(--trait); border-radius: var(--radius); }
+.tableau { width: 100%; border-collapse: collapse; font-size: .925rem; }
+.tableau th { background: var(--surface-2); color: var(--texte); text-align: left; font-weight: 650; padding: .65rem .9rem; white-space: nowrap; }
+.tableau td { padding: .65rem .9rem; border-top: 1px solid var(--trait); vertical-align: middle; background: var(--surface); }
+.tableau .droite { text-align: right; }
+.tableau td.droite { white-space: nowrap; }
+.tableau td.droite .btn { margin-left: .35rem; }
+.qui strong { display: block; }
+.qui span { color: var(--doux); font-size: .85rem; }
+.vide { text-align: center; padding: 2rem 1rem; }
+code { background: var(--surface-2); padding: .1rem .35rem; border-radius: 4px; font-size: .9em; }
+
+/* États */
+.etat { display: inline-block; padding: .2rem .6rem; border-radius: 999px; font-size: .8rem; font-weight: 650; white-space: nowrap; }
+.etat.actif { background: var(--bleu); color: #fff; }
+.etat.en_attente { background: var(--surface-2); color: var(--texte); border: 1px solid var(--trait); }
+.etat.bloque { background: var(--ambre); color: #1A1204; }
+.etat.desactive { background: var(--trait); color: var(--doux); }
+
+/* Réglages */
+.reglages { display: grid; grid-template-columns: repeat(2, minmax(0, 320px)); gap: 1.25rem 2rem; align-items: end; }
+.reglages .large { grid-column: 1 / -1; margin: 0; }
+.unite { display: flex; align-items: center; gap: .6rem; }
+.unite input { max-width: 110px; }
+.unite span { color: var(--doux); }
+
+/* Fenêtres */
+.fenetre { width: min(460px, calc(100vw - 2rem)); background: var(--surface); color: var(--texte); border: 1px solid var(--trait); border-radius: 14px; padding: 1.5rem; }
+.fenetre::backdrop { background: #000000CC; }
+.fenetre h2 { margin: 0 0 .5rem; font-size: 1.2rem; }
+.fenetre p { margin: 0 0 1rem; }
+.qr { width: 220px; margin: 0 auto 1rem; background: #fff; padding: 10px; border-radius: 10px; }
+.qr svg { display: block; width: 100%; height: auto; }
+.lien-ligne { display: flex; gap: .5rem; margin-bottom: .5rem; }
+.lien-ligne input { font-size: .85rem; }
+.petit-texte { font-size: .85rem; }
+.actions-fenetre { display: flex; justify-content: flex-end; gap: .5rem; margin-top: 1rem; }
+
+.toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%); background: var(--texte); color: var(--noir); padding: .7rem 1.1rem; border-radius: var(--radius); font-weight: 600; margin: 0; z-index: 20; }
+
+@media (max-width: 860px) {
+  .barre { flex-wrap: wrap; gap: .75rem; padding: .75rem 1rem; }
+  .onglets { order: 3; flex-basis: 100%; }
+  .contenu { padding: 1rem; }
+  .synthese { grid-template-columns: repeat(2, 1fr); }
+  .ajout, .ajout-outil { grid-template-columns: 1fr; }
+  .reglages { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <!-- Pas de manifeste ici : sur iPhone, l'icône garde l'adresse de ce lien pour activer dans l'appli. -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Gondole Key">
+  <meta name="robots" content="noindex">
+  <title>Activer Gondole Key</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+  <main class="appli">
+    <header class="haut"><span class="logo">G<b>O</b>NDOLE KEY</span></header>
+
+    <section class="activation">
+      <h1>Activer la double authentification</h1>
+      <p class="doux">Ce téléphone affichera un code qui change toutes les 17 secondes. Tu le saisiras pour te connecter à Gondole One, une fois par semaine et par outil.</p>
+
+      <div id="ios" class="info cache">
+        <p><strong>Sur iPhone, ajoute d'abord l'appli à l'écran d'accueil :</strong></p>
+        <p>Touche le bouton Partager de Safari, puis « Sur l'écran d'accueil ». Ouvre ensuite Gondole Key depuis l'icône pour terminer l'activation.</p>
+      </div>
+
+      <p id="erreur" class="alerte cache" role="alert"></p>
+
+      <button id="activer" class="btn large" type="button">Activer sur ce téléphone</button>
+      <button id="ici" class="btn secondaire large cache" type="button">Activer quand même dans Safari</button>
+    </section>
+  </main>
+  <script src="/assets/enroll.js"></script>
+</body>
+</html>

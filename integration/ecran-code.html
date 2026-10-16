@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <title>Gondole One — Code de sécurité</title>
+  <style>
+    :root { --noir:#000; --surface-2:#1F232B; --trait:#2C313B; --texte:#F2F3F5; --doux:#99A0AC; --bleu:#2F6BFF; --bleu-fonce:#1D4FD1; --ambre:#E8A33D; color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; display:grid; place-items:center; background:var(--noir); color:var(--texte); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; padding:1.25rem; }
+    main { width:100%; max-width:380px; display:flex; flex-direction:column; gap:1rem; }
+    .logo { font-weight:800; letter-spacing:.08em; font-size:1.05rem; color:#fff; }
+    .logo b { color:var(--bleu); }
+    h1 { font-size:1.35rem; margin:1rem 0 0; line-height:1.25; }
+    p { margin:0; color:var(--doux); line-height:1.5; }
+    .cases { display:flex; gap:.5rem; justify-content:space-between; margin:.5rem 0; }
+    .cases input { width:100%; aspect-ratio:.85; text-align:center; font-size:1.6rem; font-weight:700; background:var(--surface-2); border:1px solid var(--trait); border-radius:10px; color:#fff; font-variant-numeric:tabular-nums; padding:0; }
+    .cases input:focus { border-color:var(--bleu); outline:none; }
+    .cases .sep { width:.5rem; flex:none; }
+    button { border:0; border-radius:10px; padding:1rem; background:var(--bleu); color:#fff; font-weight:650; font-size:1.05rem; cursor:pointer; }
+    button:hover { background:var(--bleu-fonce); }
+    button:disabled { background:var(--trait); color:var(--doux); }
+    .alerte { background:var(--ambre); color:#1A1204; border-radius:10px; padding:.75rem 1rem; font-weight:600; }
+    .cache { display:none; }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="logo">G<b>O</b>NDOLE ONE</span>
+    <h1>Code de sécurité</h1>
+    <p>Ouvre Gondole Key sur ton téléphone et saisis le code affiché. Il change toutes les 17 secondes.</p>
+    <form id="f" autocomplete="off">
+      <div class="cases" id="cases">
+        <input inputmode="numeric" maxlength="1" aria-label="Chiffre 1" autocomplete="one-time-code">
+        <input inputmode="numeric" maxlength="1" aria-label="Chiffre 2">
+        <input inputmode="numeric" maxlength="1" aria-label="Chiffre 3">
+        <span class="sep"></span>
+        <input inputmode="numeric" maxlength="1" aria-label="Chiffre 4">
+        <input inputmode="numeric" maxlength="1" aria-label="Chiffre 5">
+        <input inputmode="numeric" maxlength="1" aria-label="Chiffre 6">
+      </div>
+      <p id="msg" class="alerte cache" role="alert"></p>
+      <button id="ok" type="submit" style="width:100%;margin-top:1rem" disabled>Valider le code</button>
+    </form>
+    <p>Tu ne le redonneras pas sur cet appareil avant 7 jours.</p>
+  </main>
+  <script>
+    const cases = [...document.querySelectorAll('#cases input')];
+    const ok = document.getElementById('ok'), msg = document.getElementById('msg');
+    const code = () => cases.map((c) => c.value).join('');
+    const maj = () => { ok.disabled = !/^\d{6}$/.test(code()); if (!ok.disabled) document.getElementById('f').requestSubmit(); };
+    cases.forEach((c, i) => {
+      c.addEventListener('input', () => {
+        const v = c.value.replace(/\D/g, '');
+        if (v.length > 1) { v.split('').slice(0, 6 - i).forEach((d, j) => cases[i + j].value = d); cases[Math.min(i + v.length, 5)].focus(); }
+        else { c.value = v; if (v && i < 5) cases[i + 1].focus(); }
+        maj();
+      });
+      c.addEventListener('keydown', (e) => { if (e.key === 'Backspace' && !c.value && i > 0) cases[i - 1].focus(); });
+      c.addEventListener('paste', (e) => { e.preventDefault(); const v = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6); v.split('').forEach((d, j) => cases[j].value = d); cases[Math.min(v.length, 5)].focus(); maj(); });
+    });
+    cases[0].focus();
+    let envoi = false;
+    document.getElementById('f').addEventListener('submit', async (e) => {
+      e.preventDefault(); if (envoi) return; envoi = true; ok.disabled = true; msg.classList.add('cache');
+      try {
+        const r = await fetch('/double-auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: code() }) });
+        const d = await r.json();
+        if (r.ok) return location.replace(d.suite || '/');
+        let t = d.message || 'Code refusé.';
+        if (d.restant > 0) t += ` Encore ${d.restant} essai${d.restant > 1 ? 's' : ''}.`;
+        if (d.bloqueJusqua) t += ` Réessaie à ${new Date(d.bloqueJusqua).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}.`;
+        msg.textContent = t; msg.classList.remove('cache');
+        cases.forEach((c) => c.value = ''); cases[0].focus();
+      } catch { msg.textContent = 'Connexion impossible. Vérifie le réseau.'; msg.classList.remove('cache'); }
+      envoi = false;
+    });
+  </script>
+</body>
+</html>

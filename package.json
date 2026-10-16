@@ -1,0 +1,16 @@
+{
+  "name": "gondole-key",
+  "version": "1.0.0",
+  "description": "Gondole Key — double authentification de Gondole One (codes de 17 secondes)",
+  "private": true,
+  "main": "server.js",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.js",
+    "cles": "node -e \"const c=require('crypto');console.log('MASTER_KEY='+c.randomBytes(32).toString('hex'));console.log('ADMIN_PASSWORD='+c.randomBytes(12).toString('base64url'))\"",
+    "test": "node test/e2e.js"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
+}

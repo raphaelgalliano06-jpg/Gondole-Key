@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Gondole Key">
+  <title>Gondole Key</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+  <main class="appli">
+    <header class="haut">
+      <span class="logo">G<b>O</b>NDOLE KEY</span>
+    </header>
+
+    <section id="vide" class="vide cache">
+      <h1>Aucun compte sur ce téléphone</h1>
+      <p class="doux">Ouvre le lien d'activation que ton responsable t'a envoyé, depuis ce téléphone.</p>
+    </section>
+
+    <section id="comptes"></section>
+
+    <p id="horloge" class="pied doux cache">L'heure du téléphone semble décalée. Le code a été corrigé automatiquement.</p>
+    <p id="installer" class="pied doux cache">Astuce : ajoute Gondole Key à l'écran d'accueil pour l'ouvrir en un geste.</p>
+  </main>
+
+  <template id="modele-compte">
+    <article class="compte">
+      <p class="nom"></p>
+      <button class="cadran" type="button" aria-label="Copier le code">
+        <svg viewBox="0 0 260 260" aria-hidden="true">
+          <circle class="piste" cx="130" cy="130" r="118"/>
+          <circle class="anneau" cx="130" cy="130" r="118"/>
+        </svg>
+        <span class="code" aria-live="polite">––– –––</span>
+        <span class="secondes"></span>
+      </button>
+      <p class="aide doux">Touche le code pour le copier</p>
+      <details class="details">
+        <summary>Détails</summary>
+        <p class="doux ident"></p>
+        <button class="btn secondaire petit retirer" type="button">Retirer ce compte du téléphone</button>
+      </details>
+    </article>
+  </template>
+
+  <script src="/assets/app.js"></script>
+</body>
+</html>
